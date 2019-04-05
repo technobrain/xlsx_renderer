@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.version     = XlsxRenderer::VERSION
   spec.authors     = ["KOBAYASHI-Toshinobu"]
   spec.email       = ["toshinobu_kobayashi@tbn.co.jp"]
-  spec.homepage    = "TODO"
-  spec.summary     = "TODO: Summary of XlsxRenderer."
-  spec.description = "TODO: Description of XlsxRenderer."
+  spec.homepage    = "https://www.tbn.co.jp"
+  spec.summary     = "Excel Renderer with rubyXL."
+  spec.description = ""
   spec.license     = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -27,5 +27,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "rails", "~> 5.2.3"
 
-  spec.add_development_dependency "sqlite3"
+  # Excel parser/writer
+  spec.add_dependency "rubyXL"
+
+  spec.add_development_dependency "sqlite3", "~> 1.3.6"
 end
