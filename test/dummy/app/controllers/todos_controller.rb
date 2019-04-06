@@ -4,6 +4,13 @@ class TodosController < ApplicationController
   # GET /todos
   def index
     @todos = Todo.all
+    respond_to do |format|
+      format.html { render action: :index }
+      format.xlsx do
+        template = "todo_list.xlsx"
+        send_data XlsxRenderer.generate_xlsx(template), filename: "export_#{Time.zone.today}.xlsx"
+      end
+    end
   end
 
   # GET /todos/1
