@@ -3,17 +3,29 @@ class TodosController < ApplicationController
 
   # GET /todos
   def index
+    @report_title = "Ruby テストレポート"
     @todos = Todo.all
+    
     respond_to do |format|
       format.html { render action: :index }
       format.xlsx do
+        json = @todos.as_json
+        @data = json.map do |record|
+          record.tap do |rec|
+            rec['completed_at'] = rec['completed_at'].localtime.strftime('%Y/%m/%d %H:%M')
+            rec['created_at'] = rec['created_at'].strftime('%Y/%m/%d %H:%M')
+            rec['updated_at'] = rec['updated_at'].strftime('%Y/%m/%d %H:%M')
+          end
+        end
+          
         template = "todo_list.xlsx"
-        send_data XlsxRenderer.generate_xlsx(template), filename: "export_#{Time.zone.today}.xlsx"
+        send_data XlsxRenderer.generate_xlsx(template, view_context),
+                  filename: "export_#{Time.zone.today}.xlsx"
       end
     end
   end
 
-  # GET /todos/1
+  # GET 
   def show
   end
 
