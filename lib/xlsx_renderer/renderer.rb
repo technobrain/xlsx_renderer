@@ -11,7 +11,7 @@ module XlsxRenderer
       workbook.worksheets.each do |sheet|
         sheet.each do |row|
           row&.cells&.each do |cell|
-            next unless cell
+            next if cell&.value.blank?
 
             update_cell(sheet, cell)
           end
@@ -25,19 +25,27 @@ module XlsxRenderer
 
     def update_cell(sheet, cell)
       if /(?<records>@[\w]+)\.(?<attribute>[\w]+)/ =~ cell.value
-        update_rows(sheet, cell, records, attribute)
+        insert_rows_with_original_style(sheet, cell, records, attribute)
       else
         cell.change_contents(content_eval(%("#{cell.value}")))
       end
     end
 
-    def update_rows(sheet, cell, records, attribute)
+    def insert_rows_with_original_style(sheet, cell, records, attribute)
+      insert_rows(sheet, cell, records, attribute) do |new_cell|
+        original_style_index = cell.style_index
+        new_cell.style_index = original_style_index
+      end
+    end
+
+    def insert_rows(sheet, cell, records, attribute)
       column = cell.column
       @view_context.instance_eval(records).each_with_index do |_record, idx|
         row = cell.row + idx
         value = content_eval(records)[idx][attribute]
         p [value, attribute, idx]
         sheet.add_cell(row, column, value)
+        yield(sheet[row][column]) if block_given?
       end
     end
 
