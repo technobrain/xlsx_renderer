@@ -1,9 +1,7 @@
 # frozen_string_literal
 
 module XlsxRenderer
-
   class << self
-
     def generate_xlsx(template, view_context)
       @view_context = view_context
       workbook = RubyXL::Parser.parse(Rails.root.join('app', 'views', 'xlsxs', template))
@@ -24,7 +22,7 @@ module XlsxRenderer
     private
 
     def update_cell(sheet, cell)
-      if /(?<records>@[\w]+)\.(?<attribute>[\w]+)/ =~ cell.value
+      if /(?<records>@[\w]+)\[\]\.(?<attribute>[\w]+)/ =~ cell.value
         insert_rows_with_original_style(sheet, cell, records, attribute)
       else
         cell.change_contents(content_eval(%("#{cell.value}")))
@@ -43,7 +41,6 @@ module XlsxRenderer
       @view_context.instance_eval(records).each_with_index do |_record, idx|
         row = cell.row + idx
         value = content_eval(records)[idx][attribute]
-        p [value, attribute, idx]
         sheet.add_cell(row, column, value)
         yield(sheet[row][column]) if block_given?
       end
