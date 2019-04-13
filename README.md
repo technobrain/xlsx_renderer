@@ -2,7 +2,8 @@
 Short description and motivation.
 
 ## Usage
-How to use my plugin.
+
+StartStart
 
 ## Installation
 Add this line to your application's Gemfile:
@@ -19,6 +20,12 @@ $ bundle
 Or install it yourself as:
 ```bash
 $ gem install xlsx_renderer
+```
+
+Optionaly, you can run the generator, which create initializer file.
+
+```bash
+$ rails g xlsx_renderer:initializer
 ```
 
 ## Contributing
