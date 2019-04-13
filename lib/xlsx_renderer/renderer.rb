@@ -4,7 +4,8 @@ module XlsxRenderer
   class << self
     def generate_xlsx(template, view_context)
       @view_context = view_context
-      workbook = RubyXL::Parser.parse(Rails.root.join('app', 'views', 'xlsxs', template))
+      # workbook = RubyXL::Parser.parse(Rails.root.join('app', 'views', 'xlsxs', template))
+      workbook = RubyXL::Parser.parse("#{XlsxRenderer.config.xlsx_template_path}/#{template}")
       
       workbook.worksheets.each do |sheet|
         sheet.each do |row|
