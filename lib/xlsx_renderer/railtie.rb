@@ -8,7 +8,7 @@ module XlsxRenderer
     @config ||= Config.new
   end
 
-  def self.configure(&block)
+  def self.configure
     yield(config) if block_given?
   end
 

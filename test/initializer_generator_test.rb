@@ -23,4 +23,3 @@ module XlsxRenderer
     end
   end
 end
-

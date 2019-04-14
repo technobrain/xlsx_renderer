@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class TodosController < ApplicationController
-  before_action :set_todo, only: [:show, :edit, :update, :destroy]
+  before_action :set_todo, only: %i[show edit update destroy]
 
   # GET /todos
   def index
     @todos = Todo.all
-    
+
     respond_to do |format|
       format.html { render action: :index }
       format.xlsx do
@@ -21,17 +23,16 @@ class TodosController < ApplicationController
             rec['updated_at'] = rec['updated_at'].strftime('%Y/%m/%d %H:%M')
           end
         end
-          
-        template = "todo_list.xlsx"
+
+        template = 'todo_list.xlsx'
         send_data XlsxRenderer.generate_xlsx(template, view_context),
                   filename: "export_#{Time.zone.today}.xlsx"
       end
     end
   end
 
-  # GET 
-  def show
-  end
+  # GET
+  def show; end
 
   # GET /todos/new
   def new
@@ -39,8 +40,7 @@ class TodosController < ApplicationController
   end
 
   # GET /todos/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /todos
   def create
@@ -69,13 +69,14 @@ class TodosController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_todo
-      @todo = Todo.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def todo_params
-      params.require(:todo).permit(:title, :content, :due_date, :completed_at)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_todo
+    @todo = Todo.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def todo_params
+    params.require(:todo).permit(:title, :content, :due_date, :completed_at)
+  end
 end

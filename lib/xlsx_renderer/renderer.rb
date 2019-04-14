@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # frozen_string_literal
 
 module XlsxRenderer
@@ -6,7 +8,7 @@ module XlsxRenderer
       @view_context = view_context
       # workbook = RubyXL::Parser.parse(Rails.root.join('app', 'views', 'xlsxs', template))
       workbook = RubyXL::Parser.parse("#{XlsxRenderer.config.xlsx_template_path}/#{template}")
-      
+
       workbook.worksheets.each do |sheet|
         sheet.each do |row|
           row&.cells&.each do |cell|
