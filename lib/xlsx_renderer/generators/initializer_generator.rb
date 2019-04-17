@@ -5,7 +5,7 @@ require 'rails/generators'
 module XlsxRenderer
   module Generators
     class InitializerGenerator < Rails::Generators::Base
-      desc 'このジェネレータはconfig/initializersにuk_style.rbファイルを作成します'
+      desc 'このジェネレータはconfig/initializersにxlsx_renderer.rbファイルを作成します'
       source_root File.expand_path('templates/config/initializers', __dir__)
 
       def copy_initializer_file
